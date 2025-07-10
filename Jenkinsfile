@@ -35,11 +35,30 @@ pipeline {
                 }
             }
             steps {
-                echo 'Test stage'
+                echo 'Test stage start'
                 sh '''
                     #test -f build/$FILE_NAME
                     npm test
                 '''
+                echo 'Test stage start'
+            }
+        }
+
+        stage('End2End') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true 
+                }
+            }
+            steps {
+                echo 'End2End stage starts'
+                sh '''
+                    npm install -g serve
+                    serve -s build
+                    npx playwright test
+                '''
+                echo 'End2End stage ends'
             }
         }
     }
