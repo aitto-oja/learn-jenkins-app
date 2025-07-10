@@ -55,7 +55,8 @@ pipeline {
                 echo 'End2End stage starts'
                 sh '''
                     npm install serve
-                    node_modules/.bin/serve -s build
+                    node_modules/.bin/serve -s build & 
+                    sleep 10
                     npx playwright test
                 '''
                 echo 'End2End stage ends'
