@@ -26,42 +26,48 @@ pipeline {
             }
         }
         */
-        
-        stage('Test') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    reuseNode true 
-                }
-            }
-            steps {
-                echo 'Test stage start'
-                sh '''
-                    #test -f build/$FILE_NAME
-                    npm test
-                '''
-                echo 'Test stage start'
-            }
-        }
 
-        stage('End2End') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                    reuseNode true 
+        stage('Tests') {
+            parallel {
+                stage('Unit tests') {
+                    agent {
+                        docker {
+                            image 'node:18-alpine'
+                            reuseNode true 
+                        }
+                    }
+                    steps {
+                        echo 'Test stage start'
+                        sh '''
+                            #test -f build/$FILE_NAME
+                            npm test
+                        '''
+                        echo 'Test stage start'
+                    }
+                }
+
+                stage('End2End') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true 
+                        }
+                    }
+                    steps {
+                        echo 'End2End stage starts'
+                        sh '''
+                            npm install serve
+                            node_modules/.bin/serve -s build & 
+                            sleep 10
+                            npx playwright test --reporter=html
+                        '''
+                        echo 'End2End stage ends'
+                    }
                 }
             }
-            steps {
-                echo 'End2End stage starts'
-                sh '''
-                    npm install serve
-                    node_modules/.bin/serve -s build & 
-                    sleep 10
-                    npx playwright test --reporter=html
-                '''
-                echo 'End2End stage ends'
-            }
         }
+        
+        
     }
 
     post {
