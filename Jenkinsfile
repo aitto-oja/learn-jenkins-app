@@ -37,12 +37,18 @@ pipeline {
                         }
                     }
                     steps {
-                        echo 'Test stage start'
+                        echo 'Unit Test stage starts'
                         sh '''
                             #test -f build/$FILE_NAME
                             npm test
                         '''
-                        echo 'Test stage start'
+                        echo 'Unit Test stage ends'
+                    }
+
+                    post {
+                        always {
+                            junit 'jest-results/junit.xml'
+                        }
                     }
                 }
 
@@ -63,6 +69,11 @@ pipeline {
                         '''
                         echo 'End2End stage ends'
                     }
+                    post {
+                        always {
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                        }
+                    }                    
                 }
             }
         }
@@ -70,10 +81,4 @@ pipeline {
         
     }
 
-    post {
-        always {
-            junit 'jest-results/junit.xml'
-            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-        }
-    }
 }
