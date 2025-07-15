@@ -106,7 +106,17 @@ pipeline {
                     node_modules/.bin/netlify deploy --dir=build --no-build --message "Deployment"
                 '''
             }
-        }        
+        }       
+
+        stage('Approval') {
+            steps {
+                sh '''
+                    echo "Approval step begins"
+
+                    echo "Approval step ends"
+                '''
+            }
+        }
 
         stage('Deploy prod') {
             agent {
