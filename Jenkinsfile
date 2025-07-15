@@ -2,7 +2,7 @@ pipeline {
     agent any 
 
     environment {
-        NETLILFY_SITE_ID = 'b0d59fd2-d7c2-4055-994a-b037cfbf5e46'
+        NETLIFY_SITE_ID = 'b0d59fd2-d7c2-4055-994a-b037cfbf5e46'
         FILE_NAME = 'index.html'
     }
 
