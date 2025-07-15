@@ -112,7 +112,7 @@ pipeline {
             steps {
                 sh '''
                     echo "Approval step begins"
-
+                    input message: 'Do you wish to deploy to production?', ok: 'Yes, I am sure!'
                     echo "Approval step ends"
                 '''
             }
