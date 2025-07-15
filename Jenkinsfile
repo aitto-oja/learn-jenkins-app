@@ -2,6 +2,7 @@ pipeline {
     agent any 
 
     environment {
+        NETLILFY_SITE_ID = 'b0d59fd2-d7c2-4055-994a-b037cfbf5e46'
         FILE_NAME = 'index.html'
     }
 
@@ -89,6 +90,7 @@ pipeline {
                 sh '''
                     npm install netlify-cli@21.6.0
                     node_modules/.bin/netlify --version
+                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                 '''
             }
         }
