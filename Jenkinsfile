@@ -73,7 +73,17 @@ pipeline {
                     }
                     post {
                         always {
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local', reportTitles: '', useWrapperFileDirectly: true])
+                            publishHTML(target:[
+                                allowMissing: false, 
+                                alwaysLinkToLastBuild: 
+                                false, icon: '', 
+                                keepAll: true, 
+                                reportDir: 'playwright-report', 
+                                reportFiles: 'index.html', 
+                                reportName: 'Playwright Local', 
+                                reportTitles: '', 
+                                useWrapperFileDirectly: true
+                            ])
                         }
                     }                    
                 }
@@ -108,7 +118,6 @@ pipeline {
 
             environment {
                 CI_ENVIRONMENT_URL = 'https://creative-kulfi-b6afaa.netlify.app/'
-                FILE_NAME = 'index.html'
             }
             
             steps {
@@ -120,7 +129,17 @@ pipeline {
             }
             post {
                 always {
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright End2End', reportTitles: '', useWrapperFileDirectly: true])
+                    publishHTML(target: [
+                        allowMissing: false, 
+                        alwaysLinkToLastBuild: false, 
+                        icon: '', 
+                        keepAll: false, 
+                        reportDir: 'playwright-report', 
+                        reportFiles: 'index.html', 
+                        reportName: 'Playwright End2End', 
+                        reportTitles: '', 
+                        useWrapperFileDirectly: true
+                    ])
                 }
             }                    
         }        
